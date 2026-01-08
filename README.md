@@ -15,9 +15,9 @@ A collection of Terraform modules for deploying and managing AWS AI/ML services 
 
 | Module | Service | Status | Description |
 |--------|---------|--------|-------------|
-| [`kendra`](./kendra/) | Amazon Kendra | ✅ Available | Enterprise search with S3 and web crawler support |
-| [`comprehend`](./comprehend/) | Amazon Comprehend | ✅ Available | Natural language processing with custom models |
-| `bedrock` | Amazon Bedrock | 🚧 Coming Soon | Generative AI foundation models |
+| [`kendra`](./aws-kendra-data-source/) | Amazon Kendra | ✅ Available | Enterprise search with S3 and web crawler support |
+| [`comprehend`](./aws-comprehend/) | Amazon Comprehend | ✅ Available | Natural language processing with custom models |
+| [`bedrock`](./aws-bedrock/) | Amazon Bedrock | ✅ Available | Generative AI foundation models |
 | `textract` | Amazon Textract | 🚧 Coming Soon | Document text extraction |
 | `rekognition` | Amazon Rekognition | 🚧 Coming Soon | Image and video analysis |
 | `polly` | Amazon Polly | 🚧 Coming Soon | Text-to-speech service |
@@ -55,8 +55,9 @@ cd aws-ai-iac-modules
 
 ### 2. Choose a Module
 ```bash
-cd kendra     # Enterprise search
-cd comprehend # Natural language processing
+cd aws-kendra-data-source  # Enterprise search
+cd aws-comprehend          # Natural language processing
+cd aws-bedrock             # Generative AI foundation models
 ```
 
 ### 3. Review Examples
@@ -69,7 +70,7 @@ ls examples/
 ```hcl
 # Kendra Search Index
 module "enterprise_search" {
-  source = "github.com/your-org/aws-ai-iac-modules//kendra"
+  source = "github.com/your-org/aws-ai-iac-modules//aws-kendra-data-source"
   
   kendra_index_name    = "company-docs"
   kendra_data_source_type = "S3"
@@ -78,12 +79,25 @@ module "enterprise_search" {
 
 # Comprehend Document Classifier  
 module "document_classifier" {
-  source = "github.com/your-org/aws-ai-iac-modules//comprehend"
+  source = "github.com/your-org/aws-ai-iac-modules//aws-comprehend"
   
   name             = "sentiment-classifier"
   resource_type    = "classifier"
   s3_bucket_name   = "ml-training-data"
   input_s3_uri     = "s3://ml-training-data/reviews.csv"
+}
+
+# Bedrock Custom Model
+module "custom_model" {
+  source = "github.com/your-org/aws-ai-iac-modules//aws-bedrock"
+  
+  name                 = "my-custom-model"
+  resource_type        = "custom_model"
+  base_model_identifier = "amazon.titan-text-express-v1"
+  s3_bucket_name       = "bedrock-training-data"
+  training_data_config = {
+    s3_uri = "s3://bedrock-training-data/training/dataset.jsonl"
+  }
 }
 ```
 
@@ -123,6 +137,14 @@ Most modules support these standard variables:
 - 🌐 **Multi-Language**: Support for 10+ languages
 - 🤖 **Auto-IAM**: Automatic role creation with least privilege
 - 📈 **Production Ready**: Lifecycle management and validation
+
+### Amazon Bedrock
+- 🤖 **Custom Models**: Fine-tune foundation models for specific use cases
+- 🛡️ **Guardrails**: Content filtering and safety controls
+- 📚 **Knowledge Bases**: RAG with vector storage (OpenSearch, Pinecone, RDS)
+- 📊 **Logging**: Comprehensive logging for model invocations
+- 🔐 **Auto-IAM**: Automatic role creation with least privilege
+- 📈 **Production Ready**: Enterprise-grade configurations
 
 ## 🏷️ Tagging Strategy
 
@@ -314,6 +336,7 @@ Each module includes:
 - [AWS AI/ML Services](https://aws.amazon.com/machine-learning/)
 - [Amazon Kendra Developer Guide](https://docs.aws.amazon.com/kendra/)
 - [Amazon Comprehend Developer Guide](https://docs.aws.amazon.com/comprehend/)
+- [Amazon Bedrock Developer Guide](https://docs.aws.amazon.com/bedrock/)
 
 ### Terraform Resources
 - [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
