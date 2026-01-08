@@ -48,3 +48,4 @@ output "iam_role_name" {
   value       = try(aws_iam_role.bedrock_role[0].name, null)
 }
 
+

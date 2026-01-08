@@ -18,7 +18,7 @@ A collection of Terraform modules for deploying and managing AWS AI/ML services 
 | [`kendra`](./aws-kendra-data-source/) | Amazon Kendra | ✅ Available | Enterprise search with S3 and web crawler support |
 | [`comprehend`](./aws-comprehend/) | Amazon Comprehend | ✅ Available | Natural language processing with custom models |
 | [`bedrock`](./aws-bedrock/) | Amazon Bedrock | ✅ Available | Generative AI foundation models |
-| `textract` | Amazon Textract | 🚧 Coming Soon | Document text extraction |
+| [`textract`](./aws-textract/) | Amazon Textract | ✅ Available | Document text extraction |
 | `rekognition` | Amazon Rekognition | 🚧 Coming Soon | Image and video analysis |
 | `polly` | Amazon Polly | 🚧 Coming Soon | Text-to-speech service |
 | `transcribe` | Amazon Transcribe | 🚧 Coming Soon | Speech-to-text service |
@@ -58,6 +58,7 @@ cd aws-ai-iac-modules
 cd aws-kendra-data-source  # Enterprise search
 cd aws-comprehend          # Natural language processing
 cd aws-bedrock             # Generative AI foundation models
+cd aws-textract            # Document text extraction
 ```
 
 ### 3. Review Examples
@@ -98,6 +99,24 @@ module "custom_model" {
   training_data_config = {
     s3_uri = "s3://bedrock-training-data/training/dataset.jsonl"
   }
+}
+
+# Textract Adapter
+module "textract_adapter" {
+  source = "github.com/your-org/aws-ai-iac-modules//aws-textract"
+  
+  name          = "invoice-adapter"
+  resource_type = "adapter"
+  s3_bucket_name = "textract-documents"
+  adapter_versions = [{
+    version_name = "v1"
+    dataset_config = {
+      manifest_s3_object = {
+        bucket = "training-data"
+        name   = "manifests/invoice-manifest.json"
+      }
+    }
+  }]
 }
 ```
 
@@ -143,6 +162,13 @@ Most modules support these standard variables:
 - 🛡️ **Guardrails**: Content filtering and safety controls
 - 📚 **Knowledge Bases**: RAG with vector storage (OpenSearch, Pinecone, RDS)
 - 📊 **Logging**: Comprehensive logging for model invocations
+- 🔐 **Auto-IAM**: Automatic role creation with least privilege
+- 📈 **Production Ready**: Enterprise-grade configurations
+
+### Amazon Textract
+- 📄 **Custom Adapters**: Create specialized document processing adapters
+- 🔍 **Feature Types**: Extract text, forms, tables, queries, signatures, and layout
+- 📁 **S3 Integration**: Seamless document input and result output
 - 🔐 **Auto-IAM**: Automatic role creation with least privilege
 - 📈 **Production Ready**: Enterprise-grade configurations
 
@@ -337,6 +363,7 @@ Each module includes:
 - [Amazon Kendra Developer Guide](https://docs.aws.amazon.com/kendra/)
 - [Amazon Comprehend Developer Guide](https://docs.aws.amazon.com/comprehend/)
 - [Amazon Bedrock Developer Guide](https://docs.aws.amazon.com/bedrock/)
+- [Amazon Textract Developer Guide](https://docs.aws.amazon.com/textract/)
 
 ### Terraform Resources
 - [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
