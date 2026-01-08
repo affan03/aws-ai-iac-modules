@@ -19,7 +19,7 @@ A collection of Terraform modules for deploying and managing AWS AI/ML services 
 | [`comprehend`](./aws-comprehend/) | Amazon Comprehend | ✅ Available | Natural language processing with custom models |
 | [`bedrock`](./aws-bedrock/) | Amazon Bedrock | ✅ Available | Generative AI foundation models |
 | [`textract`](./aws-textract/) | Amazon Textract | ✅ Available | Document text extraction |
-| `rekognition` | Amazon Rekognition | 🚧 Coming Soon | Image and video analysis |
+| [`rekognition`](./aws-rekognition/) | Amazon Rekognition | ✅ Available | Image and video analysis |
 | `polly` | Amazon Polly | 🚧 Coming Soon | Text-to-speech service |
 | `transcribe` | Amazon Transcribe | 🚧 Coming Soon | Speech-to-text service |
 | `translate` | Amazon Translate | 🚧 Coming Soon | Language translation service |
@@ -58,7 +58,8 @@ cd aws-ai-iac-modules
 cd aws-kendra-data-source  # Enterprise search
 cd aws-comprehend          # Natural language processing
 cd aws-bedrock             # Generative AI foundation models
-cd aws-textract            # Document text extraction
+cd aws-textract           # Document text extraction
+cd aws-rekognition         # Image and video analysis
 ```
 
 ### 3. Review Examples
@@ -118,6 +119,15 @@ module "textract_adapter" {
     }
   }]
 }
+
+# Rekognition Face Collection
+module "face_collection" {
+  source = "github.com/your-org/aws-ai-iac-modules//aws-rekognition"
+  
+  name          = "employee-faces"
+  resource_type = "collection"
+}
+```
 ```
 
 ## 📋 Prerequisites
@@ -169,6 +179,14 @@ Most modules support these standard variables:
 - 📄 **Custom Adapters**: Create specialized document processing adapters
 - 🔍 **Feature Types**: Extract text, forms, tables, queries, signatures, and layout
 - 📁 **S3 Integration**: Seamless document input and result output
+- 🔐 **Auto-IAM**: Automatic role creation with least privilege
+- 📈 **Production Ready**: Enterprise-grade configurations
+
+### Amazon Rekognition
+- 👤 **Face Collections**: Face recognition and matching
+- 📹 **Stream Processors**: Real-time video analysis with Kinesis
+- 🏷️ **Custom Labels**: Build custom image classification models
+- 🔍 **Image Analysis**: Detect objects, scenes, and text in images
 - 🔐 **Auto-IAM**: Automatic role creation with least privilege
 - 📈 **Production Ready**: Enterprise-grade configurations
 
@@ -364,6 +382,7 @@ Each module includes:
 - [Amazon Comprehend Developer Guide](https://docs.aws.amazon.com/comprehend/)
 - [Amazon Bedrock Developer Guide](https://docs.aws.amazon.com/bedrock/)
 - [Amazon Textract Developer Guide](https://docs.aws.amazon.com/textract/)
+- [Amazon Rekognition Developer Guide](https://docs.aws.amazon.com/rekognition/)
 
 ### Terraform Resources
 - [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest)

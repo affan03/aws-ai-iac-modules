@@ -148,3 +148,4 @@ resource "aws_textract_adapter" "this" {
 }
 
 
+
